@@ -1,0 +1,6 @@
+framework module MVVM {
+  umbrella header "MVVM-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}
