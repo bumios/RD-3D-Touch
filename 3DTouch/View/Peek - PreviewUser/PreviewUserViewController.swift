@@ -23,7 +23,11 @@ final class PreviewUserViewController: UIViewController {
     @IBOutlet fileprivate weak var backgroundImageView: UIImageView!
 
     // MARK: - Properties
-    var viewModel: PreviewUserViewModel?
+    var viewModel: PreviewUserViewModel? {
+        didSet {
+            updateView()
+        }
+    }
 
     // Preview Action Items for PEEK
     override var previewActionItems: [UIPreviewActionItem] {
@@ -66,7 +70,6 @@ final class PreviewUserViewController: UIViewController {
         super.viewDidLoad()
 
         configUI()
-        updateView()
     }
 
     // MARK: - IBActions

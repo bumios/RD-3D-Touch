@@ -25,6 +25,8 @@ final class ListUserViewController: UIViewController {
     private var viewModel = ListUserViewModel()
     private var alertController: UIAlertController?
     private var previewInteraction: UIPreviewInteraction!
+    let previewUserViewController = PreviewUserViewController()
+    let userDetailViewController = DetailUserViewController()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -53,22 +55,18 @@ extension ListUserViewController: UIViewControllerPreviewingDelegate {
         // Xác định indexPath row của tableView
         guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
         let cellRect = tableView.rectForRow(at: indexPath)
-        let previewUserViewController = PreviewUserViewController()
         let sourceRect = previewingContext.sourceView.convert(cellRect, from: tableView)
 
         rowIndexPath = indexPath
         previewingContext.sourceRect = sourceRect
         // Widget, height của contentSize có thể thay đổi, nếu muốn nó tự động co dãn theo auto layout thì set thuộc tính đó = 0
         previewUserViewController.preferredContentSize = CGSize(width: 0, height: 500)
-        previewUserViewController.viewModel = viewModel.viewModelForUserPreview(at: indexPath)
         return previewUserViewController
     }
 
     // POP: Hiển thị DetailUserViewController
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         // Load dữ liệu tương ứng cho POP View & hiển thị
-        let userDetailViewController = DetailUserViewController()
-        userDetailViewController.viewModel = viewModel.viewModelForUserDetail(at: rowIndexPath)
         show(userDetailViewController, sender: self)
     }
 }
@@ -102,18 +100,14 @@ extension ListUserViewController {
 // MARK: - UIPreviewInteractionDelegate
 extension ListUserViewController: UIPreviewInteractionDelegate {
     func previewInteraction(_ previewInteraction: UIPreviewInteraction, didUpdatePreviewTransition transitionProgress: CGFloat, ended: Bool) {
-        print("-> Transition Progress: \(transitionProgress), ended: \(ended)")
-
         if ended {
-            print("-> Finished PEEK")
+            previewUserViewController.viewModel = viewModel.viewModelForUserPreview(at: rowIndexPath)
         }
     }
 
     func previewInteraction(_ previewInteraction: UIPreviewInteraction, didUpdateCommitTransition transitionProgress: CGFloat, ended: Bool) {
-        print("-> Transition Progress: \(transitionProgress), ended: \(ended)")
-
         if ended {
-            print("-> Finished POP")
+            userDetailViewController.viewModel = viewModel.viewModelForUserDetail(at: rowIndexPath)
         }
     }
 

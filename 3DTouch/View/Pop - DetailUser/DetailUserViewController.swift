@@ -24,14 +24,17 @@ final class DetailUserViewController: UIViewController {
     @IBOutlet fileprivate weak var backgroundImageView: UIImageView!
     
     // MARK: - Properties
-    var viewModel: DetailUserViewModel?
+    var viewModel: DetailUserViewModel? {
+        didSet {
+            updateView()
+        }
+    }
 
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configUI()
-        updateView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
