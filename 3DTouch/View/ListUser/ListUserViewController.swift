@@ -27,7 +27,7 @@ final class ListUserViewController: UIViewController {
     private var previewInteraction: UIPreviewInteraction!
     let previewUserViewController = PreviewUserViewController()
     let userDetailViewController = DetailUserViewController()
-
+duytrannek
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
